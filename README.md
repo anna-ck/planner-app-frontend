@@ -1,1 +1,1 @@
-Simple React + TypeScript + Vite app that acts as a frontend for a training application created in Terraform & AWS (planner-app-infra).
+A simple React + TypeScript + Vite application that serves as the frontend for a training platform, with infrastructure provisioned using Terraform and AWS (planner-app-infra).
