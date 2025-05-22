@@ -18,13 +18,16 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { createTaskMutation } from '../mutations/tasks';
 import type { TaskData } from '../types/task';
-
-const Task = () => {
+import { RECURRENCE } from '../constants/task';
+import useTasks from '../queries/useTasks';
+const NewTask = () => {
   const [taskData, setTaskData] = useState<TaskData>({
     title: '',
     scheduledFor: new Date(),
-    recurrence: 'none',
+    recurrence: RECURRENCE.NONE
   });
+
+  const { refetch: refetchTasks } = useTasks();
 
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -33,9 +36,10 @@ const Task = () => {
       setTaskData({
         title: '',
         scheduledFor: new Date(),
-        recurrence: 'none',
+        recurrence: RECURRENCE.NONE,
       });
       setShowSuccess(true);
+      refetchTasks();
     },
   });
 
@@ -59,7 +63,7 @@ const Task = () => {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 3, maxWidth: 600, mx: 'auto', mt: 4 }}>
+    <Paper elevation={3} sx={{ p: 3, width: 500, mx: 'auto', mt: 4 }}>
       <form onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Typography variant="h5" component="h2" gutterBottom>
@@ -104,22 +108,22 @@ const Task = () => {
               onChange={handleRecurrenceChange}
             >
               <FormControlLabel 
-                value="none" 
+                value={RECURRENCE.NONE} 
                 control={<Radio disabled={mutation.isPending} />} 
                 label="One-time task" 
               />
               <FormControlLabel 
-                value="daily" 
+                value={RECURRENCE.DAILY} 
                 control={<Radio disabled={mutation.isPending} />} 
                 label="Every day" 
               />
               <FormControlLabel 
-                value="weekly" 
+                value={RECURRENCE.WEEKLY} 
                 control={<Radio disabled={mutation.isPending} />} 
                 label="Every week" 
               />
               <FormControlLabel 
-                value="monthly" 
+                value={RECURRENCE.MONTHLY} 
                 control={<Radio disabled={mutation.isPending} />} 
                 label="Every month" 
               />
@@ -157,4 +161,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default NewTask;
